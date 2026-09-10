@@ -2,10 +2,12 @@ package com.javacourse_fiolo04.spring_mongo.services;
 
 import com.javacourse_fiolo04.spring_mongo.domain.User;
 import com.javacourse_fiolo04.spring_mongo.repositories.UserRepository;
+import com.javacourse_fiolo04.spring_mongo.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -14,5 +16,10 @@ public class UserService {
 
     public List<User> findAll() {
         return repository.findAll();
+    }
+
+    public User findById(String id) {
+        Optional<User> user = repository.findById(id);
+        return user.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado."));
     }
 }
