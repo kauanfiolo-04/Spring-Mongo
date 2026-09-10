@@ -5,11 +5,10 @@ import com.javacourse_fiolo04.spring_mongo.dto.UserDTO;
 import com.javacourse_fiolo04.spring_mongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,5 +38,16 @@ public class UserResource {
         UserDTO userDto = new UserDTO(user);
 
         return ResponseEntity.ok(userDto);
+    }
+
+    @PostMapping()
+    public ResponseEntity<Void> insert(@RequestBody UserDTO userDto) {
+        User user = service.fromDTO(userDto);
+        User response = service.insert(user);
+        URI uri =
+            ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").
+                buildAndExpand(response.getId()).toUri();
+
+        return ResponseEntity.created(uri).build();
     }
 }

@@ -1,6 +1,7 @@
 package com.javacourse_fiolo04.spring_mongo.services;
 
 import com.javacourse_fiolo04.spring_mongo.domain.User;
+import com.javacourse_fiolo04.spring_mongo.dto.UserDTO;
 import com.javacourse_fiolo04.spring_mongo.repositories.UserRepository;
 import com.javacourse_fiolo04.spring_mongo.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,13 @@ public class UserService {
     public User findById(String id) {
         Optional<User> user = repository.findById(id);
         return user.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado."));
+    }
+
+    public User insert(User user) {
+        return repository.insert(user);
+    }
+
+    public User fromDTO(UserDTO userDto) {
+        return new User(userDto.getId(), userDto.getName(), userDto.getEmail());
     }
 }
