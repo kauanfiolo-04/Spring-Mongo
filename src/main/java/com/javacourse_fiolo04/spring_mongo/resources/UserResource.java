@@ -1,5 +1,6 @@
 package com.javacourse_fiolo04.spring_mongo.resources;
 
+import com.javacourse_fiolo04.spring_mongo.domain.Post;
 import com.javacourse_fiolo04.spring_mongo.domain.User;
 import com.javacourse_fiolo04.spring_mongo.dto.UserDTO;
 import com.javacourse_fiolo04.spring_mongo.services.UserService;
@@ -68,5 +69,12 @@ public class UserResource {
         service.delete(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/{id}/posts")
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+        User user = service.findById(id);
+
+        return ResponseEntity.ok(user.getPosts());
     }
 }
