@@ -3,6 +3,7 @@ package com.javacourse_fiolo04.spring_mongo.config;
 import com.javacourse_fiolo04.spring_mongo.domain.Post;
 import com.javacourse_fiolo04.spring_mongo.domain.User;
 import com.javacourse_fiolo04.spring_mongo.dto.AuthorDTO;
+import com.javacourse_fiolo04.spring_mongo.dto.CommentDTO;
 import com.javacourse_fiolo04.spring_mongo.repositories.PostRepository;
 import com.javacourse_fiolo04.spring_mongo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,25 @@ public class Instantiation implements CommandLineRunner {
             "Hoje eu acordei feliz!",
             new AuthorDTO(maria)
         );
+
+        CommentDTO c1 = new CommentDTO(
+            "Boa viagem mano!",
+            Instant.parse("2018-03-21T20:12:56Z"),
+            new AuthorDTO(alex)
+        );
+        CommentDTO c2 = new CommentDTO(
+            "Aproveite!",
+            Instant.parse("2018-03-22T08:54:34Z"),
+            new AuthorDTO(bob)
+        );
+        CommentDTO c3 = new CommentDTO(
+            "Tenha um ótimo dia!",
+            Instant.parse("2018-03-23T12:45:50Z"),
+            new AuthorDTO(alex)
+        );
+
+        post1.getComments().addAll(Arrays.asList(c1, c2));
+        post2.getComments().add(c3);
 
         postRepository.saveAll(Arrays.asList(post1, post2));
 
