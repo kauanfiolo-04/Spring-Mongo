@@ -1,13 +1,13 @@
 package com.javacourse_fiolo04.spring_mongo.services;
 
 import com.javacourse_fiolo04.spring_mongo.domain.Post;
-import com.javacourse_fiolo04.spring_mongo.domain.User;
-import com.javacourse_fiolo04.spring_mongo.dto.UserDTO;
 import com.javacourse_fiolo04.spring_mongo.repositories.PostRepository;
 import com.javacourse_fiolo04.spring_mongo.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,5 +24,13 @@ public class PostService {
     public List<Post> findByTitle(String text) {
         /* return repository.findByTitleContainingIgnoreCase(text); */
         return repository.searchTitle(text);
+    }
+
+    public List<Post> fullSearch(String text, Instant minDate, Instant maxDate) {
+        if (maxDate != null) {
+            maxDate = maxDate.plus(1, ChronoUnit.DAYS);
+        }
+
+        return repository.fullSearch(text, minDate, maxDate);
     }
 }
